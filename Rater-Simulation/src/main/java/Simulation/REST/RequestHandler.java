@@ -34,7 +34,7 @@ public class RequestHandler {
         return jsonObject;
     }
 
-    public JSONObject postResource(String url, String auth, JSONObject requestBody) throws IOException {
+    public JSONObject postResource(String url, JSONObject requestBody) throws IOException {
         JSONObject jsonObject = null;
         try {
             HttpResponse response;
@@ -43,8 +43,6 @@ public class RequestHandler {
             StringEntity entity = new StringEntity(requestBody.toString());
             entity.setContentType("application/json");
             postConnection.setEntity(entity);
-
-            postConnection.setHeader("Authorization", "Bearer " + auth);
             try {
                 response = httpClient.execute(postConnection);
                 String JSONString = EntityUtils.toString(response.getEntity(), "UTF-8");

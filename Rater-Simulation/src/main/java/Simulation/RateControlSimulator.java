@@ -39,7 +39,7 @@ public class RateControlSimulator {
         sendRequests(requestCount);
 
         Instant endTime = Instant.now();
-        log.info("Sent {} Requests in: {}ms", requestCount, Duration.between(startTime, endTime).toMillis());
+        log.info("Sent {} Requests in: {}ms, avg request time: {}ms", requestCount, Duration.between(startTime, endTime).toMillis());
 
         Thread.sleep(500);
         log.info("Status Retrieved: {}", getStatus().toString());
@@ -79,7 +79,7 @@ public class RateControlSimulator {
 
         try {
             Instant startTime = Instant.now();
-            JSONObject json = requestHandler.postResource(url, getAuth(), requestBody);
+            JSONObject json = requestHandler.postResource(url, requestBody);
             if (json != null && (json.optString("status").equals("")) || json.toMap().get("status").equals(200))  {
                 Instant endTime = Instant.now();
                 String successString = json.getBoolean("rateExceeded") ? "denied" : "permitted";
@@ -97,7 +97,7 @@ public class RateControlSimulator {
         JSONObject requestBody = getRequestBodyForProcessingAndStatus();
 
         try {
-            JSONObject json = requestHandler.postResource(url, getAuth(), requestBody);
+            JSONObject json = requestHandler.postResource(url, requestBody);
             if (json != null && (json.optString("status").equals("")) || json.toMap().get("status").equals(200))  {
                 return ApiStatus.from(json);
             } else {
