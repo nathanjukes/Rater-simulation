@@ -11,6 +11,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
 
 import static Simulation.Util.Environment.*;
 
@@ -25,14 +27,14 @@ public class RateControlSimulator {
         this.requestHandler = new RequestHandler();
     }
 
-    public void startSimulation() throws InterruptedException {
+    public void startSimulation(int requestCount) throws InterruptedException {
         try {
             healthCheck();
         } catch (Exception ex) {
             log.info("Stopping simulation for: {}", baseUrl);
+            return;
         }
 
-        int requestCount = 100;
         log.info("Sending {} Requests", requestCount);
         Instant startTime = Instant.now();
 
@@ -60,18 +62,22 @@ public class RateControlSimulator {
         }
     }
 
-    private void sendRequests(int n) {
-        //Sends requests to impersonate a server receiving a request from a client
-        List<CompletableFuture<Void>> tasks = new ArrayList<>();
+    private void sendRequests(int n) throws InterruptedException {
+        // Sends requests to impersonate a server receiving a request from a client
+        CompletableFuture<Void>[] tasksArray =
+                IntStream.range(0, n)
+                        .mapToObj(i -> CompletableFuture.runAsync(this::sendRequest).thenRun(() -> {
+                            try {
+                                TimeUnit.MILLISECONDS.sleep(100);
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }))
+                        .toArray(CompletableFuture[]::new);
 
-        for (int i = 0; i < n; i++) {
-            CompletableFuture<Void> task = CompletableFuture.runAsync(() -> sendRequest());
-            tasks.add(task);
-        }
-
-        CompletableFuture<Void>[] tasksArray = tasks.toArray(new CompletableFuture[0]);
         CompletableFuture.allOf(tasksArray).join();
     }
+
 
     private void sendRequest() {
         String url = getProcessRequestUrl(baseUrl);
@@ -88,7 +94,7 @@ public class RateControlSimulator {
                 throw new Exception("Request Failed");
             }
         } catch (Exception ex) {
-            log.info("Request Failed: {}", baseUrl);
+            log.error("Request Failed: {}", baseUrl, ex);
         }
     }
 
@@ -113,7 +119,7 @@ public class RateControlSimulator {
         JSONObject requestBody = new JSONObject();
         requestBody.put("apiKey", getApiKey());
         requestBody.put("apiPath", getApiPath());
-        requestBody.put("userId", getUserId());
+        requestBody.put("data", getUserData());
         return requestBody;
     }
 }

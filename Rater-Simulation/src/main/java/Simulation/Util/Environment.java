@@ -38,14 +38,15 @@ public class Environment {
     }
 
     public static final String getApiKey() {
-        return "ZWn5BKKw4vikfxJ1MRRCvldsMNFf8mEWs3m1RgiI-aI=";
+        //return "GkC1zPp_824Ay_WRxlstTaFVIjCZSXtF8hlED1hNIco=";
+        return "F8PCKoLLO1ZRhFEWp1oXqTCN7uMMNPufCbBjfOGbcg0=";
     }
 
-    public static final String getUserId() {
-        return "4b7dbb41-4156-4a81-af4d-6052080104c7";
+    public static final String getUserData() {
+        return "a8eb4a51-3d7c-4aa4-b4a6-99e4a193fc20";
     }
 
     public static final String getApiPath() {
-        return "GET:/devices";
+        return "POST:/users";
     }
 }

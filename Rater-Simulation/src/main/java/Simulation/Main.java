@@ -12,13 +12,13 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         log.info("Rater Simulation");
 
-        String raterManagement = getRateManagementUrl();
         String raterRateControl = getRateControlUrl();
 
-//        RateControlSimulator managementSimulator = new RateControlSimulator(raterManagement);
-//        managementSimulator.startSimulation();
-
         RateControlSimulator rateControlSimulator = new RateControlSimulator(raterRateControl);
-        rateControlSimulator.startSimulation();
+        rateControlSimulator.startSimulation(100);
+        //rateControlSimulator.startSimulation(50);
+        //rateControlSimulator.startSimulation(100);
+        //rateControlSimulator.startSimulation(500);
+        //rateControlSimulator.startSimulation(1000);
     }
 }
