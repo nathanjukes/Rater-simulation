@@ -68,7 +68,7 @@ public class RateControlSimulator {
                 IntStream.range(0, n)
                         .mapToObj(i -> CompletableFuture.runAsync(this::sendRequest).thenRun(() -> {
                             try {
-                                TimeUnit.MILLISECONDS.sleep(100);
+                                TimeUnit.MILLISECONDS.sleep(200);
                             } catch (InterruptedException e) {
                                 throw new RuntimeException(e);
                             }

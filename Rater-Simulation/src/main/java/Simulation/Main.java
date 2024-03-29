@@ -15,10 +15,10 @@ public class Main {
         String raterRateControl = getRateControlUrl();
 
         RateControlSimulator rateControlSimulator = new RateControlSimulator(raterRateControl);
+        rateControlSimulator.startSimulation(10);
+        rateControlSimulator.startSimulation(50);
         rateControlSimulator.startSimulation(100);
-        //rateControlSimulator.startSimulation(50);
-        //rateControlSimulator.startSimulation(100);
-        //rateControlSimulator.startSimulation(500);
-        //rateControlSimulator.startSimulation(1000);
+        rateControlSimulator.startSimulation(500);
+        rateControlSimulator.startSimulation(1000);
     }
 }

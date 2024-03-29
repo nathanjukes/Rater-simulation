@@ -38,12 +38,11 @@ public class Environment {
     }
 
     public static final String getApiKey() {
-        //return "GkC1zPp_824Ay_WRxlstTaFVIjCZSXtF8hlED1hNIco=";
         return "F8PCKoLLO1ZRhFEWp1oXqTCN7uMMNPufCbBjfOGbcg0=";
     }
 
     public static final String getUserData() {
-        return "a8eb4a51-3d7c-4aa4-b4a6-99e4a193fc20";
+        return "aca802b5-82c3-4f71-aa61-eb2d69a37211";
     }
 
     public static final String getApiPath() {
